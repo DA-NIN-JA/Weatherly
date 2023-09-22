@@ -18,8 +18,7 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       theme: ThemeData(
         useMaterial3: true,
-        // colorScheme: ColorScheme.fromSeed(seedColor: rain),
-        scaffoldBackgroundColor: partCloudy.withOpacity(0.7),
+        scaffoldBackgroundColor: Colors.black,
         textTheme: TextTheme(
           displaySmall: TextStyle(
             fontSize: 18,
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
           bodySmall:
               TextStyle(fontFamily: "Raleway", fontSize: 14, color: kwhite),
           bodyMedium:
-              TextStyle(fontFamily: "RobotoSlab", fontSize: 15, color: kwhite),
+              TextStyle(fontFamily: "RobotoSlab", fontSize: 14, color: kwhite),
           labelSmall: TextStyle(
             fontFamily: "Raleway",
             fontSize: 14,

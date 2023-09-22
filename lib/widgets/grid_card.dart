@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/constants.dart';
 
 class GridCard extends StatelessWidget {
-  final height;
-  final width;
-  final heading;
+  final double height;
+  final double width;
+  final String heading;
   final String value;
-  final icon;
+  final IconData icon;
+  final String unit;
 
   GridCard({
     required this.height,
@@ -14,6 +15,7 @@ class GridCard extends StatelessWidget {
     required this.heading,
     required this.value,
     required this.icon,
+    required this.unit,
   });
 
   @override
@@ -29,10 +31,31 @@ class GridCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 32, color: kwhite,),
-          Text(heading, style: Theme.of(context).textTheme.labelSmall,),
+          Icon(
+            icon,
+            size: 32,
+            color: kwhite,
+          ),
+          Text(
+            heading,
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
           // SizedBox(height: 8,),
-          Text(value, style: Theme.of(context).textTheme.labelMedium,),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                value,
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+              SizedBox(width: 4,),
+              Text(
+                unit,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
         ],
       ),
     );

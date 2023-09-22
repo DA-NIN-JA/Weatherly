@@ -18,7 +18,8 @@ class _HomePageState extends State<HomePage> {
     final width = MediaQuery.of(context).size.width;
     return FutureBuilder(
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            !snapshot.hasData) {
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
@@ -32,13 +33,43 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
+          final data = snapshot.data;
+          var bgColor = partCloudy;
+          switch (data?["main"]) {
+            case "Thunderstorm":
+              bgColor = overcast.withOpacity(0.7);
+              break;
+            case "Drizzle":
+              bgColor = partCloudy.withOpacity(0.7);
+              break;
+            case "rain":
+              bgColor = partCloudy.withOpacity(0.7);
+              break;
+            case "Snow":
+              bgColor = snow.withOpacity(0.7);
+              break;
+            case "Mist":
+              bgColor = mist.withOpacity(0.7);
+              break;
+            case "Clear":
+              bgColor = sunny.withOpacity(0.7);
+              break;
+            case "Clouds":
+              bgColor = cloudy.withOpacity(0.7);
+              break;
+            case "Haze":
+              bgColor = mist.withOpacity(0.7);
+              break;
+            default:
+              bgColor = partCloudy.withOpacity(0.7);
+          }
           return Scaffold(
             body: Container(
               height: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0),
-                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2)
+                  bgColor.withOpacity(0.2),
+                  bgColor.withOpacity(0.4)
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
               ),
               child: SafeArea(
@@ -59,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                             width: 8,
                           ),
                           Text(
-                            snapshot.data as String,
+                            data?["cityName"] as String,
                             style: TextStyle(
                                 fontSize: 28,
                                 color: kwhite,
@@ -71,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                         height: 40,
                       ),
                       Text(
-                        "37°C",
+                        "${(data?["temp"] as double).round()}°C",
                         style: TextStyle(
                           fontSize: 120,
                           fontFamily: "RobotoSlab",
@@ -97,12 +128,13 @@ class _HomePageState extends State<HomePage> {
                               SizedBox(
                                 width: 4,
                               ),
-                              Text("37° / 29°",
+                              Text(
+                                  "${(data?["temp_max"] as double).round()}°C / ${(data?["temp_min"] as double).round()}°C",
                                   style:
                                       Theme.of(context).textTheme.displaySmall)
                             ],
                           ),
-                          Text("Haze",
+                          Text(data?["main"],
                               style: Theme.of(context).textTheme.displayMedium),
                         ],
                       ),
@@ -113,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                         height: height * 0.14,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey.shade800.withOpacity(0.5)),
+                            color: Colors.grey.shade800.withOpacity(0.7)),
                         child: ListView.builder(
                           padding:
                               EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -176,7 +208,10 @@ class _HomePageState extends State<HomePage> {
                                         "Today",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyMedium,
+                                            .bodySmall,
+                                      ),
+                                      SizedBox(
+                                        width: 2,
                                       ),
                                       Row(
                                         children: [
@@ -194,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyMedium,
+                                                  .bodySmall,
                                             ),
                                           ),
                                         ],
@@ -248,13 +283,16 @@ class _HomePageState extends State<HomePage> {
                                       height: height,
                                       width: width,
                                       icon: Icons.air_rounded,
-                                      value: "66%"),
+                                      value: "${data?["humidity"]}",
+                                      unit : "%"),
                                   GridCard(
                                       heading: "Feels Like",
                                       height: height,
                                       width: width,
                                       icon: Icons.air_rounded,
-                                      value: "39$d"),
+                                      value:
+                                          "${(data?["feels_like"] as double).round()}",
+                                      unit : "${d}C"),
                                 ],
                               ),
                             ],
@@ -274,13 +312,15 @@ class _HomePageState extends State<HomePage> {
                                       height: height,
                                       width: width,
                                       icon: Icons.air_rounded,
-                                      value: "1.54"),
+                                      value: "${data?["speed"].toStringAsFixed(2)}",
+                                      unit: "m/s"),
                                   GridCard(
                                       heading: "Air Pressure",
                                       height: height,
                                       width: width,
                                       icon: Icons.air_rounded,
-                                      value: "1004"),
+                                      value: "${data?["pressure"]}",
+                                      unit: "hPa"),
                                 ],
                               ),
                             ],
