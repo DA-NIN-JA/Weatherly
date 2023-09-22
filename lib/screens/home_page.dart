@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:weather_app/constants.dart';
 
-import '../grid_card.dart';
+import '../widgets/grid_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
