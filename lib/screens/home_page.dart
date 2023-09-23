@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+
 import 'package:weather_app/constants.dart';
+import 'package:weather_app/screens/splash_screen.dart';
 import 'package:weather_app/services/weather_api.dart';
 
+import '../widgets/forecast.dart';
 import '../widgets/grid_card.dart';
+import '../widgets/today_weather.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  double? tempMin;
+  double? tempMax;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  void setMinMaxTemp(double minTemp, double maxTemp) {
+    setState(() {
+      widget.tempMin = minTemp;
+      widget.tempMax = maxTemp;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -21,11 +34,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting ||
             !snapshot.hasData) {
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return SplashScreen(height: height, width: width);
         }
         if (snapshot.hasError) {
           return Scaffold(
@@ -95,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 fontSize: 28,
                                 color: kwhite,
-                                fontFamily: "Raleway"),
+                                fontFamily: "Raleway", overflow: TextOverflow.ellipsis),maxLines: 1,
                           ),
                         ],
                       ),
@@ -116,27 +125,16 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: [
-                              Text(
-                                "Fri",
-                                style: Theme.of(context).textTheme.displaySmall,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                  "${(data?["temp_max"] as double).round()}° / ${(data?["temp_min"] as double).round()}° C",
-                                  style:
-                                      Theme.of(context).textTheme.displaySmall)
-                            ],
-                          ),
                           Text(data?["main"],
-                              style: Theme.of(context).textTheme.displayMedium),
+                              style: Theme.of(context).textTheme.displayMedium, maxLines: 1,),
+                          Text(
+                            DateFormat("EEE, MMM, dd").format(DateTime.now()),
+                            style: Theme.of(context).textTheme.displayMedium,
+                            maxLines: 1,
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -144,83 +142,40 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Container(
                         height: height * 0.14,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey.shade800.withOpacity(0.5),boxShadow: [BoxShadow(blurRadius: 16, spreadRadius: 4,blurStyle: BlurStyle.outer)]),
-                        child: TodayWeather(),
+                            color: bgColor.withOpacity(0.01),
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 16,
+                                  spreadRadius: 4,
+                                  blurStyle: BlurStyle.outer)
+                            ]),
+                        child: TodayWeather(
+                          lat: data?["lat"],
+                          long: data?["lon"],
+                        ),
                       ),
                       SizedBox(
                         height: 30,
                       ),
                       Container(
-                        height: height * 0.52,
+                        height: height * 0.4,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey.shade800.withOpacity(0.5),
-                          boxShadow: [BoxShadow(blurRadius: 16, spreadRadius: 4,blurStyle: BlurStyle.outer)]
-                        ),
-                        child: ListView.builder(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 16),
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Today",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                      SizedBox(
-                                        width: 2,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.cloud,
-                                            color: kwhite,
-                                          ),
-                                          SizedBox(
-                                            width: 4,
-                                          ),
-                                          SizedBox(
-                                            width: width * 0.24,
-                                            child: Text(
-                                              "Partly Cloudy",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        "36$d / 28$d",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      )
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: kwhite.withOpacity(0.3),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                          scrollDirection: Axis.vertical,
-                          itemCount: 7,
+                            borderRadius: BorderRadius.circular(8),
+                            color: bgColor.withOpacity(0.01),
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 16,
+                                  spreadRadius: 4,
+                                  blurStyle: BlurStyle.outer)
+                            ]),
+                        child: ForecastWidget(
+                          width: width,
+                          lat: data?["lat"],
+                          lon: data?["lon"],
                         ),
                       ),
                       SizedBox(
@@ -252,17 +207,17 @@ class _HomePageState extends State<HomePage> {
                                       heading: "Humidity",
                                       height: height,
                                       width: width,
-                                      icon: Icons.air_rounded,
+                                      icon: FontAwesomeIcons.droplet,
                                       value: "${data?["humidity"]}",
-                                      unit: "%"),
+                                      unit: "%",bgColor: bgColor),
                                   GridCard(
                                       heading: "Feels Like",
                                       height: height,
                                       width: width,
-                                      icon: Icons.air_rounded,
+                                      icon: FontAwesomeIcons.temperature4,
                                       value:
                                           "${(data?["feels_like"] as double).round()}",
-                                      unit: "${d}C"),
+                                      unit: "${d}C",bgColor: bgColor),
                                 ],
                               ),
                             ],
@@ -281,17 +236,17 @@ class _HomePageState extends State<HomePage> {
                                       heading: "Wind",
                                       height: height,
                                       width: width,
-                                      icon: Icons.air_rounded,
+                                      icon: FontAwesomeIcons.wind,
                                       value:
                                           "${data?["speed"].toStringAsFixed(2)}",
-                                      unit: "m/s"),
+                                      unit: "m/s",bgColor: bgColor),
                                   GridCard(
                                       heading: "Air Pressure",
                                       height: height,
                                       width: width,
-                                      icon: Icons.air_rounded,
+                                      icon: FontAwesomeIcons.arrowsDownToLine,
                                       value: "${data?["pressure"]}",
-                                      unit: "hPa"),
+                                      unit: "hPa",bgColor: bgColor),
                                 ],
                               ),
                             ],
@@ -311,58 +266,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class TodayWeather extends StatelessWidget {
-  const TodayWeather({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SizedBox(width: double.infinity,);
-        }
-        if (snapshot.hasError) {
-          return Text("An Error Occured");
-        }
-        if (snapshot.data != null) {
-          final data = snapshot.data;
-          return ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            physics:
-                AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      DateFormat.jm()
-                          .format(DateTime.parse(data[index]["dt_txt"])),
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    Icon(
-                      Icons.sunny,
-                      color: kwhite,
-                    ),
-                    Text(
-                      "${(data[index]["main"]["temp"] as double).round()}$d",
-                      style: Theme.of(context).textTheme.titleSmall,
-                    )
-                  ],
-                ),
-              );
-            },
-            scrollDirection: Axis.horizontal,
-            itemCount: data!.length,
-          );
-        } else {
-          return Text("An Error");
-        }
-      },
-      future: APIService().todayForecast(),
-    );
-  }
-}
+
+
+

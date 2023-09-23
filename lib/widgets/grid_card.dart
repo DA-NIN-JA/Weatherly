@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:weather_app/constants.dart';
 
 class GridCard extends StatelessWidget {
@@ -8,15 +9,18 @@ class GridCard extends StatelessWidget {
   final String value;
   final IconData icon;
   final String unit;
+  final Color bgColor;
 
   GridCard({
+    Key? key,
     required this.height,
     required this.width,
     required this.heading,
     required this.value,
     required this.icon,
     required this.unit,
-  });
+    required this.bgColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class GridCard extends StatelessWidget {
       width: height * 0.18,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Colors.grey.shade800.withOpacity(0.6),
+        color: bgColor.withOpacity(0.01),
         boxShadow: [
           BoxShadow(
             blurRadius: 8,
@@ -40,14 +44,16 @@ class GridCard extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 32,
+            size: 24,
             color: kwhite,
+          ),
+          SizedBox(
+            height: 4,
           ),
           Text(
             heading,
             style: Theme.of(context).textTheme.labelSmall,
           ),
-          // SizedBox(height: 8,),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
