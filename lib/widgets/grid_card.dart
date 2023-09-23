@@ -30,7 +30,7 @@ class GridCard extends StatelessWidget {
       width: height * 0.18,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: bgColor.withOpacity(0.01),
+        color: bgColor==Colors.white? bgColor.withOpacity(0.1) : bgColor.withOpacity(0.01),
         boxShadow: [
           BoxShadow(
             blurRadius: 8,

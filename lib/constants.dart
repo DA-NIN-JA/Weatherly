@@ -10,6 +10,6 @@ const snow = Color.fromRGBO(195, 195, 195, 1);
 const windy = Color.fromRGBO(0, 206, 209, 1);
 const kwhite = Color.fromARGB(255, 224, 224, 224);
 const kblack = Color.fromARGB(255, 66, 66, 66);
-const splash = Color.fromRGBO(25, 25, 112, 1);
+const splash = Color.fromRGBO(18, 18, 18, 1);
 const night = Color.fromRGBO(14, 0, 138, 7);
 const d = "°"; 

@@ -81,7 +81,7 @@ class SplashScreen extends StatelessWidget {
                   height: height * 0.14,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: partCloudy.withOpacity(0.7).withOpacity(0.01),
+                      color: Colors.white.withOpacity(0.1),
                       boxShadow: [
                         BoxShadow(
                             blurRadius: 16,
@@ -100,7 +100,7 @@ class SplashScreen extends StatelessWidget {
                   height: height * 0.4,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: partCloudy.withOpacity(0.7).withOpacity(0.01),
+                      color: Colors.white.withOpacity(0.1),
                       boxShadow: [
                         BoxShadow(
                             blurRadius: 16,
@@ -143,7 +143,7 @@ class SplashScreen extends StatelessWidget {
                                 icon: FontAwesomeIcons.droplet,
                                 value: "",
                                 unit: "%",
-                                bgColor: partCloudy.withOpacity(0.7)),
+                                bgColor: Colors.white),
                             GridCard(
                                 heading: "Feels Like",
                                 height: height,
@@ -151,7 +151,7 @@ class SplashScreen extends StatelessWidget {
                                 icon: FontAwesomeIcons.temperature4,
                                 value: "",
                                 unit: "${d}C",
-                                bgColor: partCloudy.withOpacity(0.7)),
+                                bgColor: Colors.white),
                           ],
                         ),
                       ],
@@ -172,7 +172,7 @@ class SplashScreen extends StatelessWidget {
                                 icon: FontAwesomeIcons.wind,
                                 value: "",
                                 unit: "m/s",
-                                bgColor: partCloudy.withOpacity(0.7)),
+                                bgColor: Colors.white),
                             GridCard(
                                 heading: "Air Pressure",
                                 height: height,
@@ -180,7 +180,7 @@ class SplashScreen extends StatelessWidget {
                                 icon: FontAwesomeIcons.arrowsDownToLine,
                                 value: "",
                                 unit: "hPa",
-                                bgColor: partCloudy.withOpacity(0.7)),
+                                bgColor: Colors.white),
                           ],
                         ),
                       ],
