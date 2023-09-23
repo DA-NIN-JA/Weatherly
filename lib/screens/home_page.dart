@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/constants.dart';
 import 'package:weather_app/services/weather_api.dart';
 
@@ -129,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 4,
                               ),
                               Text(
-                                  "${(data?["temp_max"] as double).round()}°C / ${(data?["temp_min"] as double).round()}°C",
+                                  "${(data?["temp_max"] as double).round()}° / ${(data?["temp_min"] as double).round()}° C",
                                   style:
                                       Theme.of(context).textTheme.displaySmall)
                             ],
@@ -145,41 +146,8 @@ class _HomePageState extends State<HomePage> {
                         height: height * 0.14,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey.shade800.withOpacity(0.7)),
-                        child: ListView.builder(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          physics: AlwaysScrollableScrollPhysics(
-                              parent: BouncingScrollPhysics()),
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    "12:00 PM",
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  Icon(
-                                    Icons.sunny,
-                                    color: kwhite,
-                                  ),
-                                  Text(
-                                    "32$d",
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 24,
-                        ),
+                            color: Colors.grey.shade800.withOpacity(0.5),boxShadow: [BoxShadow(blurRadius: 16, spreadRadius: 4,blurStyle: BlurStyle.outer)]),
+                        child: TodayWeather(),
                       ),
                       SizedBox(
                         height: 30,
@@ -187,8 +155,10 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         height: height * 0.52,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey.shade800.withOpacity(0.5)),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey.shade800.withOpacity(0.5),
+                          boxShadow: [BoxShadow(blurRadius: 16, spreadRadius: 4,blurStyle: BlurStyle.outer)]
+                        ),
                         child: ListView.builder(
                           padding: EdgeInsets.symmetric(
                               horizontal: 16, vertical: 16),
@@ -269,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 12,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -284,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                                       width: width,
                                       icon: Icons.air_rounded,
                                       value: "${data?["humidity"]}",
-                                      unit : "%"),
+                                      unit: "%"),
                                   GridCard(
                                       heading: "Feels Like",
                                       height: height,
@@ -292,7 +262,7 @@ class _HomePageState extends State<HomePage> {
                                       icon: Icons.air_rounded,
                                       value:
                                           "${(data?["feels_like"] as double).round()}",
-                                      unit : "${d}C"),
+                                      unit: "${d}C"),
                                 ],
                               ),
                             ],
@@ -312,7 +282,8 @@ class _HomePageState extends State<HomePage> {
                                       height: height,
                                       width: width,
                                       icon: Icons.air_rounded,
-                                      value: "${data?["speed"].toStringAsFixed(2)}",
+                                      value:
+                                          "${data?["speed"].toStringAsFixed(2)}",
                                       unit: "m/s"),
                                   GridCard(
                                       heading: "Air Pressure",
@@ -336,6 +307,62 @@ class _HomePageState extends State<HomePage> {
         }
       },
       future: APIService().getLocName(),
+    );
+  }
+}
+
+class TodayWeather extends StatelessWidget {
+  const TodayWeather({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SizedBox(width: double.infinity,);
+        }
+        if (snapshot.hasError) {
+          return Text("An Error Occured");
+        }
+        if (snapshot.data != null) {
+          final data = snapshot.data;
+          return ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            physics:
+                AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      DateFormat.jm()
+                          .format(DateTime.parse(data[index]["dt_txt"])),
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    Icon(
+                      Icons.sunny,
+                      color: kwhite,
+                    ),
+                    Text(
+                      "${(data[index]["main"]["temp"] as double).round()}$d",
+                      style: Theme.of(context).textTheme.titleSmall,
+                    )
+                  ],
+                ),
+              );
+            },
+            scrollDirection: Axis.horizontal,
+            itemCount: data!.length,
+          );
+        } else {
+          return Text("An Error");
+        }
+      },
+      future: APIService().todayForecast(),
     );
   }
 }

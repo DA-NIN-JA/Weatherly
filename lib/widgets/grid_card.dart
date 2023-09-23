@@ -27,6 +27,13 @@ class GridCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.grey.shade800.withOpacity(0.6),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 8,
+            spreadRadius: 1,
+            blurStyle: BlurStyle.outer,
+          )
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +56,9 @@ class GridCard extends StatelessWidget {
                 value,
                 style: Theme.of(context).textTheme.labelMedium,
               ),
-              SizedBox(width: 4,),
+              SizedBox(
+                width: 4,
+              ),
               Text(
                 unit,
                 style: Theme.of(context).textTheme.bodySmall,

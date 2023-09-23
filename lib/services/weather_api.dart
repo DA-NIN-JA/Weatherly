@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'package:weather_app/services/location.dart';
+import 'package:intl/intl.dart';
+import 'key.dart';
 
 class APIService {
   // final base = "https://api.openweathermap.org";
-  final key = "775779545afc3c2f3df737d4331fd522";
+  
   var name = "";
+  var futureForecast;
 
   Future<Map<String, dynamic>> getLocName() async {
     try {
@@ -56,6 +59,39 @@ class APIService {
     } catch (e) {
       print(e);
       return {};
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> filter(List<dynamic> responseData) async{
+    List<Map<String, dynamic>> today = [{}];
+    DateTime now = DateTime.now();
+
+    for(Map<String, dynamic> mp in responseData){
+      DateTime dateTime = DateTime.parse(mp['dt_txt']);
+      if(dateTime.day == now.day && dateTime.isAfter(now)){
+        today.add(mp);
+      }
+    }
+
+    today.removeAt(0);
+
+    return today;
+  }
+
+  Future<List<Map<String, dynamic>>> todayForecast() async{
+    try {
+      final units = "metric";
+      final uri = "https://api.openweathermap.org/data/2.5/forecast?lat=28.7130324&lon=77.2112818&units=$units&appid=${key}";
+      http.Response response = await http.get(Uri.parse(uri));
+      final responseData = jsonDecode(response.body);
+      futureForecast = responseData;
+      List<Map<String, dynamic>> today = await filter(responseData["list"]);
+      print(today);
+      return today;
+
+    } catch (e) {
+      print(e);
+      return [{}];
     }
   }
 }

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           ),
           displayMedium: TextStyle(
             fontSize: 24,
-            fontFamily: "JosefinSlab",
+            fontFamily: "Raleway",
             color: kwhite,
           ),
           bodySmall:
@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
             fontSize: 28,
             color: kwhite,
           ),
+          titleSmall: TextStyle(fontFamily: "RobotoSlab", fontSize: 14, color: kwhite),
         ),
       ),
     );
