@@ -62,8 +62,13 @@ class _HomePageState extends State<HomePage> {
               bgColor = mist.withOpacity(0.7);
               break;
             case "Clear":
-              bgColor = sunny.withOpacity(0.7);
-              break;
+              if (DateTime.now().hour < 18) {
+                bgColor = sunny.withOpacity(0.7);
+                break;
+              } else {
+                bgColor = night.withOpacity(0.7);
+              }
+
             case "Clouds":
               bgColor = cloudy.withOpacity(0.7);
               break;
@@ -104,7 +109,9 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 fontSize: 28,
                                 color: kwhite,
-                                fontFamily: "Raleway", overflow: TextOverflow.ellipsis),maxLines: 1,
+                                fontFamily: "Raleway",
+                                overflow: TextOverflow.ellipsis),
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -128,8 +135,11 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text(data?["main"],
-                              style: Theme.of(context).textTheme.displayMedium, maxLines: 1,),
+                          Text(
+                            data?["main"],
+                            style: Theme.of(context).textTheme.displayMedium,
+                            maxLines: 1,
+                          ),
                           Text(
                             DateFormat("EEE, MMM, dd").format(DateTime.now()),
                             style: Theme.of(context).textTheme.displayMedium,
@@ -209,7 +219,8 @@ class _HomePageState extends State<HomePage> {
                                       width: width,
                                       icon: FontAwesomeIcons.droplet,
                                       value: "${data?["humidity"]}",
-                                      unit: "%",bgColor: bgColor),
+                                      unit: "%",
+                                      bgColor: bgColor),
                                   GridCard(
                                       heading: "Feels Like",
                                       height: height,
@@ -217,7 +228,8 @@ class _HomePageState extends State<HomePage> {
                                       icon: FontAwesomeIcons.temperature4,
                                       value:
                                           "${(data?["feels_like"] as double).round()}",
-                                      unit: "${d}C",bgColor: bgColor),
+                                      unit: "${d}C",
+                                      bgColor: bgColor),
                                 ],
                               ),
                             ],
@@ -239,14 +251,16 @@ class _HomePageState extends State<HomePage> {
                                       icon: FontAwesomeIcons.wind,
                                       value:
                                           "${data?["speed"].toStringAsFixed(2)}",
-                                      unit: "m/s",bgColor: bgColor),
+                                      unit: "m/s",
+                                      bgColor: bgColor),
                                   GridCard(
                                       heading: "Air Pressure",
                                       height: height,
                                       width: width,
                                       icon: FontAwesomeIcons.arrowsDownToLine,
                                       value: "${data?["pressure"]}",
-                                      unit: "hPa",bgColor: bgColor),
+                                      unit: "hPa",
+                                      bgColor: bgColor),
                                 ],
                               ),
                             ],
@@ -265,8 +279,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-
-
-

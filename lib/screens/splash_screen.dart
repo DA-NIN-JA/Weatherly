@@ -21,8 +21,8 @@ class SplashScreen extends StatelessWidget {
         height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-            partCloudy.withOpacity(0.7).withOpacity(0.2),
-            partCloudy.withOpacity(0.7).withOpacity(0.4),
+            splash.withOpacity(0.7).withOpacity(0.2),
+            splash.withOpacity(0.7).withOpacity(0.4),
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
         child: SafeArea(
