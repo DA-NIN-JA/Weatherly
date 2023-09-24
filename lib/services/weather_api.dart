@@ -60,7 +60,7 @@ class APIService {
         ...wind,
         ...mainData
       };
-      // data["main"] = "Clear";
+      // data["main"] = "Snow";
       // print(data);
       return data;
     } catch (e) {

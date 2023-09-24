@@ -52,7 +52,7 @@ class TodayWeather extends StatelessWidget {
                       },
                     ),
                     Text(
-                      "${(data[index]["main"]["temp"] as double).round()}$d",
+                      "${(data[index]["main"]["temp"]).round()}$d",
                       style: Theme.of(context).textTheme.titleSmall,
                     )
                   ],

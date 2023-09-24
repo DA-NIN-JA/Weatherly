@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             case "Drizzle":
               bgColor = partCloudy.withOpacity(0.7);
               break;
-            case "rain":
+            case "Rain":
               bgColor = partCloudy.withOpacity(0.7);
               break;
             case "Snow":
@@ -83,8 +83,8 @@ class _HomePageState extends State<HomePage> {
               height: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  bgColor.withOpacity(0.2),
-                  bgColor.withOpacity(0.4)
+                  bgColor.withOpacity(0),
+                  bgColor.withOpacity(0.2)
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
               ),
               child: SafeArea(
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                         height: 40,
                       ),
                       Text(
-                        "${(data?["temp"] as double).round()}°C",
+                        "${(data?["temp"]).round()}°C",
                         style: TextStyle(
                           fontSize: 120,
                           fontFamily: "RobotoSlab",
@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                                       width: width,
                                       icon: FontAwesomeIcons.temperature4,
                                       value:
-                                          "${(data?["feels_like"] as double).round()}",
+                                          "${(data?["feels_like"]).round()}",
                                       unit: "${d}C",
                                       bgColor: bgColor),
                                 ],
