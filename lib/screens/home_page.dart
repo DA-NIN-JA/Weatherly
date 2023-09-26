@@ -58,9 +58,7 @@ class _HomePageState extends State<HomePage> {
             case "Snow":
               bgColor = snow.withOpacity(0.7);
               break;
-            case "Mist":
-              bgColor = mist.withOpacity(0.7);
-              break;
+            
             case "Clear":
               if (DateTime.now().hour < 18) {
                 bgColor = sunny.withOpacity(0.7);
@@ -74,6 +72,30 @@ class _HomePageState extends State<HomePage> {
               break;
             case "Haze":
               bgColor = mist.withOpacity(0.7);
+              break;
+            case "Mist":
+              bgColor = mist.withOpacity(0.7);
+              break;
+            case "Smoke":
+              bgColor = mist.withOpacity(0.7);
+              break;
+            case "Dust":
+              bgColor = mist.withOpacity(0.7);
+              break;
+            case "Fog":
+              bgColor = mist.withOpacity(0.7);
+              break;
+            case "Sand":
+              bgColor = sunny.withOpacity(0.4);
+              break;
+            case "Ash":
+              bgColor = mist.withOpacity(0.7);
+              break;
+            case "Squall":
+              bgColor = mist.withOpacity(0.7);
+              break;
+            case "Tornado":
+              bgColor = overcast.withOpacity(0.7);
               break;
             default:
               bgColor = partCloudy.withOpacity(0.7);
@@ -93,27 +115,30 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.location_on_rounded,
-                            color: kwhite,
-                            size: 32,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            data?["cityName"] as String,
-                            style: TextStyle(
-                                fontSize: 28,
-                                color: kwhite,
-                                fontFamily: "Raleway",
-                                overflow: TextOverflow.ellipsis),
-                            maxLines: 1,
-                          ),
-                        ],
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.location_on_rounded,
+                              color: kwhite,
+                              size: 32,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              data?["cityName"] as String,
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  color: kwhite,
+                                  fontFamily: "Raleway",
+                                  overflow: TextOverflow.ellipsis),
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 40,

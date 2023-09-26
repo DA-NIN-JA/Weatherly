@@ -31,31 +31,34 @@ class TodayWeather extends StatelessWidget {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      DateFormat.jm()
-                          .format(DateTime.parse(data[index]["dt_txt"])),
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    Image.network(
-                      data[index]["weather"][0]["icon"],
-                      fit: BoxFit.fill,
-                      height: 64,
-                      width: 64,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Text(
-                          "Failed to load image!",
-                          style: TextStyle(fontSize: 10),
-                        );
-                      },
-                    ),
-                    Text(
-                      "${(data[index]["main"]["temp"]).round()}$d",
-                      style: Theme.of(context).textTheme.titleSmall,
-                    )
-                  ],
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        DateFormat.jm()
+                            .format(DateTime.parse(data[index]["dt_txt"])),
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      Image.network(
+                        data[index]["weather"][0]["icon"],
+                        // fit: BoxFit.scaleDown,
+                        height: 64,
+                        width: 64,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Text(
+                            "Failed to load image!",
+                            style: TextStyle(fontSize: 10),
+                          );
+                        },
+                      ),
+                      Text(
+                        "${(data[index]["main"]["temp"]).round()}$d",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      )
+                    ],
+                  ),
                 ),
               );
             },

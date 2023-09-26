@@ -43,7 +43,7 @@ class ForecastWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: width * 0.24,
+                          width: width * 0.20,
                           child: Text(
                             data[index]["datetime"],
                             style: Theme.of(context).textTheme.bodySmall,
@@ -57,7 +57,7 @@ class ForecastWidget extends StatelessWidget {
                           children: [
                             Image.network(
                       data[index]["icon"],
-                      fit: BoxFit.fill,
+                      fit: BoxFit.scaleDown,
                       height: 44,
                       width: 44,
                       errorBuilder: (context, error, stackTrace) {
@@ -71,7 +71,7 @@ class ForecastWidget extends StatelessWidget {
                               width: 4,
                             ),
                             SizedBox(
-                              width: width * 0.12,
+                              width: width * 0.18,
                               child: Text(
                                 data[index]["conditions"],
                                 overflow: TextOverflow.ellipsis,

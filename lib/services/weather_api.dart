@@ -150,7 +150,7 @@ class APIService {
         curr["datetime"] = "Tomorrow";
       } else {
         curr["datetime"] =
-            DateFormat('EEEE').format(DateTime.parse(day["datetime"]));
+            DateFormat('EEE').format(DateTime.parse(day["datetime"]));
       }
       days.add(curr);
     }
